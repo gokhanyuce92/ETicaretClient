@@ -3,8 +3,6 @@ import { CommonModule } from '@angular/common';
 import { CustomerComponent } from './customer.component';
 import { RouterModule } from '@angular/router';
 
-
-
 @NgModule({
   declarations: [
     CustomerComponent

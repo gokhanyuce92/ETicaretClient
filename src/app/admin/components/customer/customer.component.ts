@@ -7,6 +7,7 @@ import { BaseComponent, SpinnerType } from 'src/app/base/base.component';
   templateUrl: './customer.component.html',
   styleUrls: ['./customer.component.css']
 })
+
 export class CustomerComponent extends BaseComponent implements OnInit {
   constructor(spinner: NgxSpinnerService){
     super(spinner)

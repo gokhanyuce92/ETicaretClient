@@ -9,15 +9,8 @@ import { CustomToastrService, ToastrMessageType, ToastrPosition } from 'src/app/
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent extends BaseComponent implements OnInit {
-  constructor(spinner: NgxSpinnerService, public toastrService:CustomToastrService){
+  constructor(spinner: NgxSpinnerService){
     super(spinner);
-  }
-
-  showNotification(){
-    this.toastrService.showMessage("dsafasda","sdada",{
-      messageType:ToastrMessageType.Error,
-      position:ToastrPosition.TopRight
-    })
   }
 
   ngOnInit(): void {

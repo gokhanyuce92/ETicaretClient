@@ -1,0 +1,15 @@
+<div class="row">
+    <div class="col-md-6">
+            <div class="mb-3">
+                <label for="usernameOrEmail" class="form-label">Kullanıcı Adı/Email</label>
+                <input type="text" #txtusernameOrEmail class="form-control" id="usernameOrEmail">
+                <span class="form-text text-muted invalid-feedback">***</span>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Şifre</label>
+                <input type="password" #txtPassword class="form-control" id="password">
+            </div>
+
+            <button type="submit" class="btn btn-primary" (click)="login(txtusernameOrEmail.value,txtPassword.value)">Giriş Yap</button>
+    </div>
+</div>

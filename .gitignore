@@ -61,3 +61,6 @@ testem.log
 Thumbs.db
 
 .angular/cache
+
+!*.yaml
+!*.yml

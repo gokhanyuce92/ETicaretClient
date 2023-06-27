@@ -20,6 +20,7 @@ export class UserAuthService {
     const tokenResponse: TokenResponse =  await firstValueFrom(observable) as TokenResponse;
     if(tokenResponse){
       localStorage.setItem("accessToken",tokenResponse.token.accessToken);
+      localStorage.setItem("refreshToken",tokenResponse.token.refreshToken);
 
       this.toastrService.showMessage("Kullanıcı girişi başarıyla sağlanmıstır","Giriş Başarılı",{
         messageType: ToastrMessageType.Success,
@@ -38,6 +39,7 @@ export class UserAuthService {
     const tokenResponse : TokenResponse =  await firstValueFrom(observable) as TokenResponse;
     if(tokenResponse){
       localStorage.setItem("accessToken",tokenResponse.token.accessToken);
+      localStorage.setItem("refreshToken",tokenResponse.token.refreshToken);
 
       this.toastrService.showMessage("Google üzerinden giriş yapıldı", "Giriş Başarılı",{
         messageType: ToastrMessageType.Success,
@@ -46,4 +48,19 @@ export class UserAuthService {
     }
     callBackFunction();
   }
+
+  async refreshTokenLogin(refreshToken: string, callBackFunction?:()=>void): Promise<any> {
+    const observable: Observable<any | TokenResponse> = this.httpClientService.post({
+      action:"refreshtokenlogin",
+      controller:"auth"
+    },{refreshToken:refreshToken});
+
+    const tokenResponse: TokenResponse= await firstValueFrom(observable) as TokenResponse;
+    if(tokenResponse){
+      localStorage.setItem("accessToken",tokenResponse.token.accessToken);
+      localStorage.setItem("refreshToken",tokenResponse.token.refreshToken);
+    }
+    callBackFunction();
+  }
+
 }

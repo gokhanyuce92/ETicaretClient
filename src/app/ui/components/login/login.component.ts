@@ -15,11 +15,13 @@ export class LoginComponent extends BaseComponent implements OnInit {
   constructor(private userAuthService: UserAuthService, spinner: NgxSpinnerService, private authService: AuthService, 
     private activatedRoute: ActivatedRoute,private router: Router,private socialAuthService: SocialAuthService) {
     super(spinner)
-    
-    socialAuthService.authState.subscribe(async (user:SocialUser)=>{
+  }
+
+  ngOnInit(): void {
+    this.socialAuthService.authState.subscribe(async (user:SocialUser)=>{
       //console.log(user);
       this.showSpinner(SpinnerType.BallAtom);
-      await userAuthService.googleLogin(user,()=>{
+      await this.userAuthService.googleLogin(user,()=>{
         this.authService.identityCheck();
 
         this.activatedRoute.queryParams.subscribe(params=>{
@@ -31,7 +33,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
       })
     });
   }
-
+  
   async login(usernameOrEmail: string, password: string){
     this.showSpinner(SpinnerType.BallAtom);
     await this.userAuthService.login(usernameOrEmail,password,()=>{
@@ -46,6 +48,5 @@ export class LoginComponent extends BaseComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-  }
+  
 }

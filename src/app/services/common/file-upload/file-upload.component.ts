@@ -82,19 +82,6 @@ export class FileUploadComponent {
     })
   }
 
-  // openDialog(afterClosed:()=>any): void {
-  //   const dialogRef = this.dialog.open(FileUploadDialogComponent, {
-  //     data: FileUploadDialogState.Yes,
-  //   });
-
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     if(result==FileUploadDialogState.Yes){
-  //       afterClosed();
-  //     }
-  //   });
-  // }
-
-
 }
 
 export class FileUploadOptions {

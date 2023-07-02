@@ -61,7 +61,12 @@ export class SelectProductImageDialogComponent extends BaseDialog<SelectProductI
         });
       }
     })
-
+  }
+  async showcase(imageId: string){
+    this.spinner.show(SpinnerType.BallAtom);
+    await this.productService.changeShowcaseImage(imageId,this.data as string,()=>{
+      this.spinner.hide(SpinnerType.BallAtom);
+    });
   }
 }
 

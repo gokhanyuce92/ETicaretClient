@@ -32,7 +32,7 @@ export class ListComponent extends BaseComponent implements AfterViewInit {
   async getProducts() {
     this.showSpinner(SpinnerType.BallAtom);
 
-    const allProducts:{totalCount:number; products:ListProduct[]} =await this.productService.list(this.paginator ? this.paginator.pageIndex : 0, this.paginator ? this.paginator.pageSize : 5,
+    const allProducts:{totalProductCount:number; products:ListProduct[]} =await this.productService.list(this.paginator ? this.paginator.pageIndex : 0, this.paginator ? this.paginator.pageSize : 5,
       ()=>this.hideSpinner(SpinnerType.BallAtom),
       (errorMessage:string)=>{
       this.alertifyService.message(errorMessage,{
@@ -43,7 +43,7 @@ export class ListComponent extends BaseComponent implements AfterViewInit {
     });
   
     this.dataSource =new MatTableDataSource<ListProduct>(allProducts.products);
-    this.paginator.length=allProducts.totalCount;
+    this.paginator.length=allProducts.totalProductCount;
     // this.dataSource.paginator=this.paginator;
   }
 

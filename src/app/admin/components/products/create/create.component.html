@@ -1,14 +1,14 @@
 <mat-form-field>
-    <mat-label>Name</mat-label>
+    <mat-label>Ürün Adı</mat-label>
     <input matInput #txtName>
 </mat-form-field>
 <mat-form-field>
-    <mat-label>Stock</mat-label>
+    <mat-label>Adet</mat-label>
     <input matInput type="number" min="0" value="0" #txtStock>
 </mat-form-field>
 <mat-form-field>
-    <mat-label>Price</mat-label>
+    <mat-label>Birim Fiyat</mat-label>
     <input matInput type="number" min="0" value="0" #txtPrice>
 </mat-form-field>
 
-<button mat-raised-button color="primary" (click)="create(txtName,txtStock,txtPrice)">Create Product</button>
+<button mat-raised-button color="primary" (click)="create(txtName,txtStock,txtPrice)">Kaydet</button>

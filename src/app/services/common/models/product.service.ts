@@ -33,8 +33,8 @@ export class ProductService {
       });
   }
 
-  async list(page:number=0,size:number=5, successCallback?: ()=>void, errorCallBack?: (errorMessage:string)=>void) :Promise<{totalCount:number;products:ListProduct[]}> {
-    const promiseData : Promise<{totalCount:number;products:ListProduct[]}> = this.httpClientService.get<{totalCount:number;products:ListProduct[]}>({
+  async list(page:number=0,size:number=5, successCallback?: ()=>void, errorCallBack?: (errorMessage:string)=>void) :Promise<{totalProductCount:number;products:ListProduct[]}> {
+    const promiseData : Promise<{totalProductCount:number;products:ListProduct[]}> = this.httpClientService.get<{totalProductCount:number;products:ListProduct[]}>({
       controller:"products",
       queryString:`page=${page}&size=${size}`
     }).toPromise();
@@ -73,6 +73,16 @@ export class ProductService {
     },id);
     
     await firstValueFrom(deleteObservable);
+    successCallback();
+  }  
+
+  async changeShowcaseImage(imageId:string, productId:string, successCallback?:()=>void) {
+    const changeShowcaseObservable= this.httpClientService.get({
+      action:"changeshowcaseimage",
+      controller:"products",
+      queryString:`imageId=${imageId}&productId=${productId}`
+    });
+    await firstValueFrom(changeShowcaseObservable);
     successCallback();
   }
 }

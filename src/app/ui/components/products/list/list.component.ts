@@ -1,18 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { BaseComponent, SpinnerType } from 'src/app/base/base.component';
 import { BaseUrl } from 'src/app/contracts/base-url';
+import { Create_Basket_Item } from 'src/app/contracts/basket/create-basket-item';
 import { ListProduct } from 'src/app/contracts/list-product';
+import { BasketService } from 'src/app/services/common/models/basket.service';
 import { FileService } from 'src/app/services/common/models/file.service';
 import { ProductService } from 'src/app/services/common/models/product.service';
+import { CustomToastrService, ToastrMessageType, ToastrPosition } from 'src/app/services/ui/custom-toastr.service';
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.css']
 })
-export class ListComponent implements OnInit {
+export class ListComponent extends BaseComponent implements OnInit {
 
-  constructor(private productService: ProductService, private activatedRoute: ActivatedRoute, private fileService: FileService){}
+  constructor(private productService: ProductService, private activatedRoute: ActivatedRoute, 
+    private fileService: FileService, spinner: NgxSpinnerService, private basketService: BasketService, private customToastrService: CustomToastrService){
+      super(spinner);
+    }
 
   currentPageIndex: number;
   totalProductCount: number;
@@ -70,4 +78,21 @@ export class ListComponent implements OnInit {
       }
     });
   }
+
+  async addToBasket(product: ListProduct){
+    this.showSpinner(SpinnerType.BallAtom);
+    let _basketItem: Create_Basket_Item = new Create_Basket_Item();
+    _basketItem.productId= product.id;
+    _basketItem.quantity = 1;
+
+    await this.basketService.add(_basketItem);
+    this.hideSpinner(SpinnerType.BallAtom);
+
+    this.customToastrService.showMessage("Ürün sepete eklenmiştir.","Sepete Eklendi",{
+      messageType: ToastrMessageType.Success,
+      position: ToastrPosition.TopRight
+    });
+  }
+
+
 }

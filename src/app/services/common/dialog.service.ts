@@ -1,6 +1,6 @@
 import { ConnectionPositionPair } from '@angular/cdk/overlay';
 import { Component, Injectable } from '@angular/core';
-import { DialogPosition, MatDialog } from '@angular/material/dialog';
+import { DialogPosition, MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ComponentType } from 'ngx-toastr';
 
 @Injectable({

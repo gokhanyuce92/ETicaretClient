@@ -14,14 +14,19 @@ import { SignalRService } from 'src/app/services/common/signalr.service';
 export class DashboardComponent extends BaseComponent implements OnInit {
   constructor(spinner: NgxSpinnerService, private alertifyService: AlertifyService, private signalRService: SignalRService){
     super(spinner)
-    signalRService.start(HubUrls.ProductHub);
   }
 
   ngOnInit(): void {
-    this.signalRService.on(ReceiveFunctions.ProductAddedMessageReceiveFunction, message=>{
+    this.signalRService.on(HubUrls.ProductHub, ReceiveFunctions.ProductAddedMessageReceiveFunction, message=>{
       this.alertifyService.message(message,{
         messageType: MessageType.Notify,
         position: Position.TopRight
+      });
+    });
+    this.signalRService.on(HubUrls.OrderHub, ReceiveFunctions.OrderAddedMessageReceiveFunction, message=>{
+      this.alertifyService.message(message,{
+        messageType: MessageType.Notify,
+        position: Position.TopCenter
       });
     });
   }

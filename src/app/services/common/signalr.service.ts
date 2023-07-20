@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
 import { HubConnection, HubConnectionState } from '@microsoft/signalr';
 
@@ -7,16 +7,12 @@ import { HubConnection, HubConnectionState } from '@microsoft/signalr';
 })
 export class SignalRService {
 
-  constructor() { }
-
-  private _connection: HubConnection;
-  get connection(): HubConnection {
-    return this._connection;
-  }
+  constructor(@Inject("baseSignalRUrl") private baseSignalRUrl: string) { }
 
   start(hubUrl: string) {
-    if(!this._connection || this._connection?.state==HubConnectionState.Disconnected){
-      const hubConnection: HubConnection = new signalR.HubConnectionBuilder()
+    hubUrl = this.baseSignalRUrl + hubUrl;
+
+    const hubConnection: HubConnection = new signalR.HubConnectionBuilder()
         .withUrl(hubUrl)  
         .withAutomaticReconnect()
         .build();
@@ -25,22 +21,21 @@ export class SignalRService {
         .then(() => { })
         .catch(error=>setTimeout(()=> this.start(hubUrl), 2000));
 
-      this._connection=hubConnection;
-    }
     
-    this._connection.onreconnected(connectionId=>console.log("Reconnected"));
-    this._connection.onreconnecting(error=> console.log("Reconnecting"));
-    this._connection.onclose(error=> console.log("Close reconnecting"));
+    hubConnection.onreconnected(connectionId=>console.log("Reconnected"));
+    hubConnection.onreconnecting(error=> console.log("Reconnecting"));
+    hubConnection.onclose(error=> console.log("Close reconnecting"));
+    return hubConnection;
   };
 
-  invoke(procedureName: string, message: any, successCallBack?:(value)=>void, errorCallBack?:(error)=>void) {
-    this.connection.invoke(procedureName,message)
+  invoke(hubUrl: string, procedureName: string, message: any, successCallBack?:(value)=>void, errorCallBack?:(error)=>void) {
+    this.start(hubUrl).invoke(procedureName,message)
       .then(successCallBack)
       .catch(errorCallBack);
   }
 
-  on(procedureName: string, callBack: (...message)=>void) {
-    this.connection.on(procedureName,callBack);
+  on(hubUrl: string, procedureName: string, callBack: (...message)=>void) {
+    this.start(hubUrl).on(procedureName,callBack);
   }
 
 }

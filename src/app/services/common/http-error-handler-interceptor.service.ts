@@ -22,8 +22,7 @@ export class HttpErrorHandlerInterceptorService implements HttpInterceptor {
 
           this.userAuthService.refreshTokenLogin(localStorage.getItem("refreshToken")).then(data=>{
           }).catch((err) => {
-            console.log('error caught in service')
-            this.toastrService.showMessage("Yetkisiz işleme izin verilmiyor. Tekrar login olunuz", "Hata",{
+            this.toastrService.showMessage("Bu işlemi yapmaya yetkiniz bulunmamaktadır!", "Yetkisiz İşlem!",{
               messageType: ToastrMessageType.Warning,
               position: ToastrPosition.BottomFullWidth
             });
